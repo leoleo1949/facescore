@@ -1,0 +1,110 @@
+/**index.wxss**/
+
+.container {
+  justify-content: space-between;
+  padding: 0;
+}
+
+.upPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 85%;
+  padding-top: 40rpx;
+}
+
+.box {
+  padding: 20rpx 0;
+  width: 80%;
+  height: 90%;
+  border: 4rpx solid rgb(0, 241, 225);
+  box-shadow: rgba(0, 241, 225, 0.5) 10px 10px 20px;
+}
+
+.resultInfo {
+  margin-bottom: 20rpx;
+}
+
+.line {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.highlight {
+  font-size: 40rpx;
+  color: rgba(255, 0, 0, 0.8);
+  margin-left: 10rpx;
+  margin-right: 10rpx;
+}
+
+.normal {
+  font-size: 36rpx;
+  color: rgb(80, 180, 215);
+}
+
+.faceIamge {
+  width: 100%;
+  height: 85%;
+}
+
+.btnSection {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  background-color: rgba(200, 200, 200, 0.4);
+}
+
+.share-btn {
+  margin: 20rpx;
+  background-color: rgba(255, 77, 99, 1);
+  color: white;
+  font-size: 26rpx;
+  border-radius: 6px;
+  height: 72rpx;
+  line-height: 72rpx;
+  padding-left: 60rpx;
+  padding-right: 60rpx;
+}
+
+.share-btn-hover {
+  background-color: rgba(255, 77, 99, 0.6);
+}
+
+.save-btn {
+  margin: 20rpx;
+  color: white;
+  background-color: rgba(253, 152, 60, 1);
+  font-size: 26rpx;
+  border-radius: 6px;
+  height: 72rpx;
+  line-height: 72rpx;
+  padding-left: 60rpx;
+  padding-right: 60rpx;
+}
+
+.save-btn-hover {
+  background-color: rgba(253, 152, 60, 0.6);
+}
+
+.restart-btn {
+  margin: 20rpx;
+  color: white;
+  background-color: rgba(40, 158, 255, 1);
+  font-size: 26rpx;
+  border-radius: 6px;
+  height: 72rpx;
+  line-height: 72rpx;
+  padding-left: 60rpx;
+  padding-right: 60rpx;
+}
+
+.restart-btn-hover {
+  background-color: rgba(40, 158, 255, 0.6);
+}

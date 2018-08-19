@@ -1,0 +1,51 @@
+/**index.wxss**/
+.appmotto {
+  margin-bottom: 40rpx;
+  font-size: 40rpx;
+  color: rgb(1, 254, 226);
+}
+
+.cameracontainer {
+  width: 90%;
+  height: 80%;
+  margin-bottom: 40rpx;
+  border: 4rpx solid rgb(0, 241, 225);
+  box-shadow: rgba(0, 241, 225, 0.5) 0px 0px 30px 5px;
+  }
+
+.camera {
+  width: 100%;
+  height: 100%;
+}
+.mask{
+  height: 100%;
+  width: 100%;
+}
+.switch-btn{
+  height: 60rpx;
+  width: 100%;
+  background-size: 100% 100%;
+  border-radius: 10rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.switch-img{
+  width: 100rpx;
+  height: 60rpx;
+  border-radius: 10rpx;
+}
+
+.start-btn {
+  width: 60%;
+  height: 94rpx;
+  font-size: 36rpx;
+  border-radius: 10px;
+  background:linear-gradient(rgba(0,0,255,0.8),rgba(255,0,0,0.8));
+  line-height: 94rpx;
+  color: white;
+}
+
+.start-btn-hover {
+  background:linear-gradient(rgba(0,0,255,0.5),rgba(255,0,0,0.5));
+}

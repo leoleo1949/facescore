@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/result/index",
+    "pages/logs/logs"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#020B1C",
+    "navigationBarTitleText": "颜值计",
+    "navigationBarTextStyle": "white"
+  }
+}

@@ -1,0 +1,17 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="appmotto">
+    <text class="app-motto">{{motto}}</text>
+  </view>
+  <view class="cameracontainer">
+    <camera class="camera" device-position="{{devicePosition}}" flash="auto"  wx:if="{{ready}}">
+      <cover-view class="mask"  wx:if="{{isStarted}}">
+        <cover-image class="mask-img" src="{{maskSrc}}"></cover-image>
+      </cover-view>
+      <cover-view class="switch-btn" bindtap="switchCamera" wx:if="{{!isStarted}}">
+        <cover-image class="switch-img" src="../../resource/img/switch.png"></cover-image>
+      </cover-view>
+    </camera>
+  </view>
+  <button class="start-btn" hover-class="start-btn-hover" bindtap="startScan" disabled="{{isStarted}}">开始</button>
+</view>

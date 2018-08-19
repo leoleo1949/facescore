@@ -1,0 +1,26 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="upPage">
+    <view class="box">
+      <view class="resultInfo">
+        <view class="line">
+          <text class="normal">今日颜值</text>
+          <text class="highlight"> {{score}} </text>
+        </view>
+        <view class="line">
+          <text class="normal">超越全国</text>
+          <text class="highlight"> {{rank}}% </text>
+          <text class="normal">的用户</text>
+        </view>
+      </view>
+
+      <image class="faceIamge" mode="aspectFit" src="{{src}}"></image>
+    </view>
+  </view>
+  <view class="btnSection">
+    <button class="share-btn" hover-class="share-btn-hover" open-type="share">分享</button>
+    <button class="save-btn" hover-class="save-btn-hover" bindtap="save">保存</button>
+    <button class="restart-btn" hover-class="restart-btn-hover" bindtap="restart">重测</button>
+  </view>
+
+</view>
