@@ -8,6 +8,9 @@ var util = require('../../utils/util.js')
 const app = getApp()
 
 Page({
+  singleton: {
+    interval: null
+  },
   data: {
     motto: '扫脸测颜值',
     userInfo: {},
@@ -77,7 +80,7 @@ Page({
     })
     let that = this;
     let rank = 1;
-    let interval = setInterval(function() {
+    this.singleton.interval = setInterval(function() {
       rank = (rank) % 12 + 1
       let src = '../../resource/img/mask/m' + rank + '.png'
       that.setData({
@@ -97,15 +100,26 @@ Page({
     }, 1000);
 
     function cb(res) {
-      clearInterval(interval);
-      that.setData({
-        isStarted: false
-      })
-      if (res) {
-        that.data.faceScore = that.calScore(res.data.faces[0])
-        wx.navigateTo({
-          url: '../result/index?picture=' + that.data.src + '&score=' + that.data.faceScore
+      if (that.data.isStarted) {
+        clearInterval(that.singleton.interval);
+        that.setData({
+          isStarted: false
         })
+        if (res) {
+          let faces = res.data.faces
+          if (faces.length === 1) {
+            that.data.faceScore = that.calScore(faces[0])
+            wx.navigateTo({
+              url: '../result/index?picture=' + that.data.src + '&score=' + that.data.faceScore
+            })
+          } else if (faces.length < 1) {
+            util.showModel('', '您的脸呢？')
+          } else {
+            util.showModel('', '脸太多，算不过来了')
+          }
+        } else {
+          util.showModel('', '喔唷，出错了！')
+        }
       }
     }
   },
@@ -153,14 +167,13 @@ Page({
       },
 
       fail: function(e) {
-        util.showModel('喔唷，出错了！')
+        cb && cb()
       }
     })
 
     setTimeout(() => {
-      cb && cb()
       uploadTask.abort();
-      util.showModel('喔唷，出错了！')
+      cb && cb()
     }, 1000 * 30)
   },
   calScore: function(face) {
