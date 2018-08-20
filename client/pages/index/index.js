@@ -171,10 +171,10 @@ Page({
       }
     })
 
-    setTimeout(() => {
-      uploadTask.abort();
-      cb && cb()
-    }, 1000 * 30)
+    // setTimeout(() => {
+    //   uploadTask.abort();
+    //   cb && cb()
+    // }, 1000 * 30)
   },
   calScore: function(face) {
     let res = face.attributes
