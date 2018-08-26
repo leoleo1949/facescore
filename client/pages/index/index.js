@@ -1,5 +1,4 @@
 //index.js
-var qcloud = require('../../vendor/wafer2-client-sdk/index')
 var config = require('../../config')
 var util = require('../../utils/util.js')
 
@@ -89,7 +88,7 @@ Page({
     }, 150)
 
     setTimeout(function() {
-      // that.chooseImg((imgPath)=>{
+      // that.chooseImg((imgPath) => {
       //   that.uploadImg(imgPath, cb)
       // });
 
@@ -154,27 +153,81 @@ Page({
       })
     }
   },
+  imgToBase64: function(path, cb) {
+    wx.getImageInfo({
+      src: path,
+      success: function(res) {
+        let w = res.width,
+          h = res.height
+        let canvas = wx.createCanvasContext('img')
+        canvas.drawImage(path, 0, 0, w, h)
+        canvas.draw(false, getBase64)
+
+        function getBase64() {
+          wx.canvasGetImageData({
+            canvasId: 'img',
+            x: 0,
+            y: 0,
+            width: w,
+            height: h,
+            success(res) {
+              debugger
+              let pngData = upng.encode([res.data.buffer], res.width, res.height)
+              let base64 = wx.arrayBufferToBase64(pngData)
+              cb && cb(base64)
+            },
+            fail(err){
+              console.log(err)
+            }
+          })
+        }
+      }
+    })
+
+  },
   uploadImg: function(path, cb) {
     // 上传图片
+    this.uploadImgByServer(path, cb)
+    // this.uploadImgDirect(path, cb)
+  },
+  uploadImgByServer(path, cb){
     const uploadTask = wx.uploadFile({
       url: config.service.uploadUrl,
       filePath: path,
       name: 'file',
 
-      success: function(res) {
+      success: function (res) {
         res = JSON.parse(res.data)
         cb && cb(res)
       },
 
-      fail: function(e) {
+      fail: function (e) {
         cb && cb()
       }
     })
-
-    // setTimeout(() => {
-    //   uploadTask.abort();
-    //   cb && cb()
-    // }, 1000 * 30)
+  },
+  uploadImgDirect(path, cb) {
+    this.imgToBase64(path, (base64) => {
+      wx.request({
+        url: 'https://api-cn.faceplusplus.com/facepp/v3/detect',
+        method: 'POST',
+        data: {
+          api_key: 'GTRCWF_bTma6nBZr0Hi_7tuq4etoGoGa',
+          api_secret: '1ePA3hRnkcjmaA4ykGtTGe8PAbWyweIW',
+          return_attributes: 'gender,age,glass,facequality,ethnicity,beauty,skinstatus',
+          image_base64: base64
+        },
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        success: function (res) {
+          cb && cb(res)
+        },
+        fail: function (e) {
+          cb && cb()
+        }
+      })
+    })
   },
   calScore: function(face) {
     let res = face.attributes
