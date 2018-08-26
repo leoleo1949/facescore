@@ -17,12 +17,12 @@ Page({
     src: ""
   },
   //事件处理函数
-  bindViewTap: function () {
+  bindViewTap: function() {
     wx.navigateTo({
       url: '../logs/logs'
     })
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     let rank;
     if (options.score >= 50) {
       rank = rate[options.score - 50]
@@ -37,20 +37,56 @@ Page({
     })
 
   },
-  onShareAppMessage: function (res) {
+  onShareAppMessage: function(res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
       console.log(res.target)
     }
     return {
       title: '[有人@我]颜值即正义，扫脸测颜值',
-      path:'pages/index/index'
+      path: 'pages/index/index'
     }
   },
-  save: function () {
+  save: function() {
+    const ctx = wx.createCanvasContext('shareCanvas')
+
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, 600, 900)
+
+
+    ctx.setTextAlign('center') // 文字居中
+    ctx.setFillStyle('red') // 文字颜色
+    ctx.setFontSize(22) // 文字字号：22px
+    ctx.fillText("今日颜值 " + this.data.score, 300 - 20, 20)
+    ctx.fillText("超越全国 " + this.data.rank + " 的用户", 300 - 40, 40)
+
+    ctx.stroke()
+    ctx.draw(true, function() {
+
+      wx.canvasToTempFilePath({
+        canvasId: 'shareCanvas',
+        success: function(res) {
+          wx.saveImageToPhotosAlbum({
+            filePath: res.tempFilePath,
+            success: function(res) {
+              wx.showToast({
+                title: '已保存到相册'
+              })
+            },
+            fail: function(error) {
+              console.log(error)
+            }
+          })
+        },
+        fail: function(error) {
+          console.log(error)
+        }
+      })
+    })
+
 
   },
-  restart: function () {
+  restart: function() {
 
     wx.navigateBack();
 
