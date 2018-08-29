@@ -22,6 +22,12 @@ var config = {
 
         // 上传图片接口
         uploadUrl: `${host}/weapp/upload`
+    },
+    detectService:{
+      url:'https://api-cn.faceplusplus.com/facepp/v3/detect',
+      apiKey:'GTRCWF_bTma6nBZr0Hi_7tuq4etoGoGa',
+      apiSecret:'1ePA3hRnkcjmaA4ykGtTGe8PAbWyweIW',
+      attributes:'gender,age,glass,facequality,ethnicity,beauty,skinstatus'
     }
 };
 
