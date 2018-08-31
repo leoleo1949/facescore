@@ -23,4 +23,13 @@
     <button class="restart-btn" hover-class="restart-btn-hover" bindtap="restart">重测</button>
   </view>
 
+
 </view>
+<modal class="modal" hidden="{{modalFlag}}" no-cancel bindconfirm="modalOk" confirmText="我知道了">
+  <view class="m_container">
+    <canvas canvas-id="shareCanvas" style="width:600rpx;height:850rpx"></canvas>
+    <view class="info">
+      <text class="small">图片已保存，可分享给好友</text>
+    </view>
+  </view>
+</modal>

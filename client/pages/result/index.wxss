@@ -108,3 +108,17 @@
 .restart-btn-hover {
   background-color: rgba(40, 158, 255, 0.6);
 }
+
+.m_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+}
+.small{
+  font-size: 24rpx;
+  color: rgb(80, 180, 215);
+  height: 30rpx;
+  line-height: 30rpx;
+}
