@@ -59,51 +59,59 @@ Page({
       wx.getSystemInfo({
         success: function (res) {
           let ratio = res.screenWidth / 750;
-          let w = 600, h = 850;
+          let w = 600,
+            h = 850;
           let fs = 36;
 
-          let srcW = res.screenWidth * 0.9;
-          let srcH = (res.screenHeight - 80) * 0.8;
           const ctx = wx.createCanvasContext('shareCanvas')
-          ctx.fillStyle = '#fff';
+          ctx.fillStyle = 'rgba(2, 11, 28, 0.9)'
           ctx.fillRect(0, 0, w, h)
           ctx.setTextAlign('center')
-          ctx.setFillStyle('red')
+          ctx.fillStyle = 'rgba(255, 0, 0, 0.8)'
           ctx.setFontSize(fs * ratio)
           ctx.fillText("今日颜值 " + score, w / 2 * ratio, fs * ratio * 1.1)
           ctx.fillText("超越全国 " + rank + "% 的用户", w / 2 * ratio, fs * ratio * 2.2)
           ctx.stroke()
 
-          let leftW = w * ratio;
-          let leftH = h * ratio - fs * ratio * 3 - w * ratio / 325 * 55;
-
-          if (leftW / leftH > srcW / srcH) {
-            let deltW = (leftW - leftH / srcH * srcW) / 2
-            ctx.drawImage(src, deltW, fs * ratio * 3, leftH / srcH * srcW, leftH)
-          }
-          else {
-            let deltH = (leftH - leftW / srcW * srcH) / 2
-            ctx.drawImage(src, 0, fs * ratio * 3 + deltH, leftW, leftW / srcW * srcH)
-          }
-
           ctx.drawImage('../../resource/img/qr.png', 0, h * ratio - w * ratio / 325 * 55, w * ratio, w * ratio / 325 * 55)
 
-          ctx.draw(false, function () {
-            wx.canvasToTempFilePath({
-              canvasId: 'shareCanvas',
-              success: function (res) {
-                wx.saveImageToPhotosAlbum({
-                  filePath: res.tempFilePath,
+          wx.getImageInfo({
+            src: src,
+            success: function (res) {
+              let srcW = res.width;
+              let srcH = res.height;
+
+              let leftW = w * ratio;
+              let leftH = h * ratio - fs * ratio * 3 - w * ratio / 325 * 55;
+
+              if (leftW / leftH > srcW / srcH) {
+                let deltW = (leftW - leftH / srcH * srcW) / 2
+                ctx.drawImage(src, deltW, fs * ratio * 3, leftH / srcH * srcW, leftH)
+              } else {
+                let deltH = (leftH - leftW / srcW * srcH) / 2
+                ctx.drawImage(src, 0, fs * ratio * 3 + deltH, leftW, leftW / srcW * srcH)
+              }
+
+              ctx.draw(false, function () {
+                wx.canvasToTempFilePath({
+                  canvasId: 'shareCanvas',
+                  success: function (res) {
+                    wx.saveImageToPhotosAlbum({
+                      filePath: res.tempFilePath,
+                      fail: function (error) {
+                        console.log(error)
+                      }
+                    })
+                  },
                   fail: function (error) {
                     console.log(error)
                   }
                 })
-              },
-              fail: function (error) {
-                console.log(error)
-              }
-            })
+              })
+
+            }
           })
+
         }
       })
     }, 100)
