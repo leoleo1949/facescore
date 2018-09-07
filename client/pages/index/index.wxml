@@ -10,6 +10,7 @@
       </cover-view>
       <cover-view class="switch-btn" bindtap="switchCamera" wx:if="{{!isStarted}}">
         <cover-image class="switch-img" src="../../resource/img/switch.png"></cover-image>
+        <cover-image class="hand-img" src="{{handSrc}}" wx:if="{{showHand}}"></cover-image>
       </cover-view>
     </camera>
   </view>

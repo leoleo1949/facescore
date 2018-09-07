@@ -7,7 +7,8 @@ const app = getApp()
 
 Page({
   singleton: {
-    interval: null
+    interval: null,
+    interval_hand: null
   },
   data: {
     motto: '扫脸测颜值',
@@ -19,15 +20,17 @@ Page({
     src: '../../resource/img/default.jpg',
     devicePosition: 'front',
     ready: false,
-    maskSrc: '../../resource/img/mask/m1.png'
+    maskSrc: '../../resource/img/mask/m1.png',
+    handSrc: '../../resource/img/hand_press1.png',
+    showHand: true
   },
   //事件处理函数
-  bindViewTap: function() {
+  bindViewTap: function () {
     wx.navigateTo({
       url: '../logs/logs'
     })
   },
-  onLoad: function() {
+  onLoad: function () {
     // if (app.globalData.userInfo) {
     //   this.setData({
     //     userInfo: app.globalData.userInfo,
@@ -54,31 +57,40 @@ Page({
     //     }
     //   })
     // }
+    let that = this;
+    let rank = 1;
+    this.singleton.interval_hand = setInterval(function () {
+      rank = (rank) % 2 + 1
+      let src = '../../resource/img/hand_press' + rank + '.png'
+      that.setData({
+        handSrc: src
+      })
+    }, 500)
   },
-  onShow: function() {
+  onShow: function () {
     this.setData({
       ready: true
     })
   },
-  onHide: function() {
+  onHide: function () {
     this.setData({
       ready: false,
       isStarted: false
     })
   },
-  onShareAppMessage: function(res) {
+  onShareAppMessage: function (res) {
     return {
       title: '[有人@我]颜值即正义，扫脸测颜值',
       path: 'pages/index/index'
     }
   },
-  startScan: function() {
+  startScan: function () {
     this.setData({
       isStarted: true
     })
     let that = this;
     let rank = 1;
-    this.singleton.interval = setInterval(function() {
+    this.singleton.interval = setInterval(function () {
       rank = (rank) % 12 + 1
       let src = '../../resource/img/mask/m' + rank + '.png'
       that.setData({
@@ -86,7 +98,7 @@ Page({
       })
     }, 150)
 
-    setTimeout(function() {
+    setTimeout(function () {
       // that.chooseImg((imgPath) => {
       //   that.uploadImg(imgPath, cb)
       // });
@@ -121,7 +133,7 @@ Page({
       }
     }
   },
-  takePhoto: function(cb) {
+  takePhoto: function (cb) {
     const ctx = wx.createCameraContext()
     ctx.takePhoto({
       quality: 'high',
@@ -131,16 +143,20 @@ Page({
       }
     })
   },
-  chooseImg: function(cb) {
+  chooseImg: function (cb) {
     wx.chooseImage({
-      success: function(res) {
+      success: function (res) {
         var tempFilePaths = res.tempFilePaths
         cb && cb(tempFilePaths[0])
       }
     })
 
   },
-  switchCamera: function() {
+  switchCamera: function () {
+    clearInterval(this.singleton.interval_hand)
+    this.setData({
+      showHand:false
+    })
 
     if (this.data.devicePosition == 'front') {
       this.setData({
@@ -152,22 +168,22 @@ Page({
       })
     }
   },
-  imgToBase64: function(path, cb) {
+  imgToBase64: function (path, cb) {
     let fileSystemManager = wx.getFileSystemManager();
     fileSystemManager.readFile({
       filePath: path,
       encoding: "base64",
-      success: function(res) {
+      success: function (res) {
         let base64 = 'data:image/jpeg;base64,' + res.data
         cb && cb(base64)
       },
-      fail: function(e) {
+      fail: function (e) {
         console.log(e)
       }
     })
 
   },
-  uploadImg: function(path, cb) {
+  uploadImg: function (path, cb) {
     // 上传图片
     // this.uploadImgByServer(path, cb)
     this.uploadImgDirect(path, cb)
@@ -178,12 +194,12 @@ Page({
       filePath: path,
       name: 'file',
 
-      success: function(res) {
+      success: function (res) {
         res = JSON.parse(res.data)
         cb && cb(res)
       },
 
-      fail: function(e) {
+      fail: function (e) {
         cb && cb()
       }
     })
@@ -202,16 +218,16 @@ Page({
         header: {
           'content-type': 'application/x-www-form-urlencoded'
         },
-        success: function(res) {
+        success: function (res) {
           cb && cb(res)
         },
-        fail: function(e) {
+        fail: function (e) {
           cb && cb()
         }
       })
     })
   },
-  calScore: function(face) {
+  calScore: function (face) {
     let res = face.attributes
     let base = 0
     if (res.gender == "Male") {
