@@ -157,6 +157,7 @@ Page({
     this.setData({
       showHand:false
     })
+    wx.vibrateShort({});
 
     if (this.data.devicePosition == 'front') {
       this.setData({
